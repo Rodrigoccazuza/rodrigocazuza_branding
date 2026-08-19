@@ -5,8 +5,7 @@ import { brandMarkup, brandScript } from "../app/brand-content.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "..");
-const output =
-  "/workspace/scratch/f26503b6770c/Rodrigo-Cazuza-Brand-System.html";
+const output = join(root, "index.html");
 
 let css = await readFile(join(root, "app/globals.css"), "utf8");
 const fonts = [
@@ -30,6 +29,8 @@ const html = `<!doctype html>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="An audited visual system extracted from Rodrigo Cazuza's published portfolio.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="public/favicon.svg" type="image/svg+xml">
   <title>Rodrigo Cazuza Brand System</title>
   <style>${css}</style>
 </head>
