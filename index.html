@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Rodrigo Cazuza brand system — a navigable design system extracted from the visual language of rodrigocazuza.com.">
+  <meta name="theme-color" content="#000000">
+  <title>Rodrigo Cazuza Brand System</title>
+  <link rel="icon" href="public/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="app/globals.css">
+  <style>
+    /* GitHub Pages serves this project from /rodrigocazuza_branding/.
+       The app stylesheet uses production-root font URLs, so Pages gets
+       equivalent relative font faces here without changing the app build. */
+    @font-face { font-family:"Inter"; src:url("public/fonts/inter-latin.woff2") format("woff2"); font-style:normal; font-weight:400 700; font-display:swap; }
+    @font-face { font-family:"Playfair Display"; src:url("public/fonts/playfair-italic-latin.woff2") format("woff2"); font-style:italic; font-weight:500 700; font-display:swap; }
+    @font-face { font-family:"Poppins"; src:url("public/fonts/poppins-500-latin.woff2") format("woff2"); font-style:normal; font-weight:500; font-display:swap; }
+    @font-face { font-family:"Poppins"; src:url("public/fonts/poppins-600-latin.woff2") format("woff2"); font-style:normal; font-weight:600; font-display:swap; }
+    @font-face { font-family:"Poppins"; src:url("public/fonts/poppins-700-latin.woff2") format("woff2"); font-style:normal; font-weight:700; font-display:swap; }
+    @font-face { font-family:"Poppins"; src:url("public/fonts/poppins-800-latin.woff2") format("woff2"); font-style:normal; font-weight:800; font-display:swap; }
+  </style>
+</head>
+<body>
+  <noscript>This design system requires JavaScript to render its interactive navigation and checklist.</noscript>
+  <script type="module">
+    import { brandMarkup, brandScript } from "./app/brand-content.mjs";
+    document.body.insertAdjacentHTML("beforeend", brandMarkup);
+    Function(brandScript)();
+  </script>
+</body>
+</html>
