@@ -28,10 +28,23 @@ npm ci
 npm run dev
 ```
 
-Build and validate the production artifact:
+Build the static Hostinger artifact:
 
 ```bash
 npm run build
+```
+
+The publishable website is generated at `dist/index.html`. In Hostinger, use:
+
+- Framework: `Other`
+- Build command: `npm run build`
+- Output directory: `dist`
+- Entry file: leave blank
+
+The original Vinext/OpenAI Sites artifact remains available when needed:
+
+```bash
+npm run build:sites
 ```
 
 ## Project structure
@@ -40,7 +53,7 @@ npm run build
 - `app/globals.css` — responsive visual system
 - `app/brand-data.mjs` — embedded logo asset
 - `public/fonts/` — locally bundled brand typefaces
-- `scripts/build-standalone.mjs` — standalone offline HTML generator
+- `scripts/build-standalone.mjs` — standalone offline HTML and Hostinger `dist/` generator
 - `.openai/hosting.json` — Sites deployment configuration
 
 ## Evidence status
