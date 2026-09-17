@@ -1,6 +1,7 @@
 import { logoData } from "./brand-data.mjs";
 
 const tokenCode = `:root {
+  color-scheme: dark;
   --color-background: #000000;
   --color-surface: #0d0d0d;
   --color-surface-raised: #1a1a1a;
@@ -65,7 +66,48 @@ const tokenCode = `:root {
   --radius-medium: 16px;
   --radius-large: 24px;
   --radius-pill: 999px;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --color-background: #ffffff;
+  --color-surface: #f7f5fa;
+  --color-surface-raised: #efeaf5;
+  --color-text-primary: #17121f;
+  --color-text-secondary: #625a6b;
+  --color-text-on-accent: #ffffff;
+  --color-accent: #6026ec;
+  --color-accent-base: #6026ec;
+  --color-accent-hover: #4b18c7;
+  --color-accent-light: #7a45ff;
+  --color-accent-tint: rgba(96, 38, 236, 0.10);
+  --color-green: #1b7440;
+  --color-accent-secondary: #1b7440;
+  --color-green-tint: rgba(27, 116, 64, 0.10);
+  --color-violet: #6026ec;
+  --color-panel-gray: #efeaf5;
+  --color-ink: #17121f;
+  --color-ink-soft: #2a2233;
+  --color-border: rgba(35, 23, 47, 0.14);
+  --color-border-strong: rgba(35, 23, 47, 0.28);
+  --color-danger: #b42318;
+  --color-focus: #6026ec;
+
+  --gradient-brand: linear-gradient(135deg, #6026ec 0%, #7a45ff 100%);
+  --gradient-hero: radial-gradient(120% 120% at 100% 0%, #eee7ff 0%, #faf8ff 45%, #ffffff 100%);
+  --gradient-duotone: linear-gradient(135deg, #2ec5c5 0%, #6026ec 50%, #ff7a59 100%);
 }`;
+
+export const themeInitScript = String.raw`
+(() => {
+  try {
+    const savedTheme = localStorage.getItem('rodrigo-brand-theme');
+    document.documentElement.dataset.theme = savedTheme === 'light' ? 'light' : 'dark';
+  } catch {
+    document.documentElement.dataset.theme = 'dark';
+  }
+})();
+`;
 
 const implementationPrompt = `You are implementing the Rodrigo Cazuza design system for [PLATFORM / FORMAT].
 
@@ -90,10 +132,10 @@ BRAND FOUNDATION
 - Avoid: decoration without function; disconnected production stages; nearly identical color variants without a role; direct green-to-violet contact without black separation.
 
 CONFIRMED VISUAL TOKENS
-- Background #000000; surface #0D0D0D; raised surface #1A1A1A.
-- Primary text #FFFFFF; secondary text #B6B6BD.
+- Dark mode: background #000000; surface #0D0D0D; raised surface #1A1A1A; primary text #FFFFFF; secondary text #B6B6BD.
+- Light mode: background #FFFFFF; surface #F7F5FA; raised surface #EFEAF5; primary text #17121F; secondary text #625A6B.
 - Violet #6026EC; hover #7A45FF; light violet #9B5CFF.
-- Signal green #66D487.
+- Signal green #66D487 on dark surfaces; accessible green #1B7440 for text and interface accents on light surfaces.
 - Logo-file lime #C1FF72 is file-specific and is not an approved UI token.
 - Display: Poppins. Editorial accent: Playfair Display Italic. Body/interface: Inter.
 - Spacing: 4, 8, 12, 16, 24, 40, 64, 96 px. Section spacing: clamp(56px, 6vw, 112px).
@@ -104,7 +146,7 @@ IMPLEMENTATION METHOD
 1. Audit the requested platform, format, dimensions, safe areas, interaction states, and export limits.
 2. Map every visual choice to a confirmed token or rule above.
 3. Build hierarchy with Poppins for impact, Inter for reading, and Playfair Display Italic only for selective editorial emphasis.
-4. Keep black dominant. Use green as a signal and violet for calls to action/focus. Separate green and violet with black.
+4. Use the selected theme's surface group. Use green as a signal and violet for calls to action/focus. Separate green and violet with a neutral surface.
 5. Use only the spacing scale. Preserve a central readable content area and prevent horizontal overflow at every width.
 6. Render actual reusable components when the format supports them: pill buttons, raised cards, eyebrow headings, and numbered expertise rows.
 7. Adapt the composition to the channel's purpose instead of merely resizing it. Preserve brand hierarchy, contrast, and intent.
@@ -147,6 +189,10 @@ export const brandMarkup = String.raw`
       <a href="#tokens"><span>11</span>CSS tokens</a>
       <a href="#checklist"><span>12</span>Checklist</a>
     </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Switch to light mode">
+      <span class="theme-toggle-track" aria-hidden="true"><i></i></span>
+      <span data-theme-label>Light mode</span>
+    </button>
     <div class="sidebar-foot">
       <span class="status-dot"></span>
       <p>Site audited<br><strong>19 Aug 2026</strong></p>
@@ -309,8 +355,21 @@ export const brandMarkup = String.raw`
       <section class="doc-section" id="colors">
         <div class="section-heading">
           <p class="section-index">03 / Colors</p>
-          <h2>Dominant black, signal green, and <em>electric</em> violet.</h2>
-          <p>The names below are the site's real CSS variable names. The logo color is listed separately because the file has no equivalent token.</p>
+          <h2>One identity, organized into <em>dark</em> and light modes.</h2>
+          <p>The core violet stays consistent. Green shifts to a deeper accessible value for text on white, while the original bright green remains the signal color on dark surfaces.</p>
+        </div>
+
+        <div class="theme-groups" aria-label="Theme color groups">
+          <article class="theme-group theme-group-dark">
+            <div><span>Dark mode</span><strong>Depth + signal</strong></div>
+            <div class="theme-group-swatches" aria-label="Dark mode colors"><i style="--tone:#000000"></i><i style="--tone:#1a1a1a"></i><i style="--tone:#66d487"></i><i style="--tone:#6026ec"></i><i style="--tone:#ffffff"></i></div>
+            <p>Black canvas, layered charcoal surfaces, bright signal green, electric violet, and white type.</p>
+          </article>
+          <article class="theme-group theme-group-light">
+            <div><span>Light mode</span><strong>Clarity + contrast</strong></div>
+            <div class="theme-group-swatches" aria-label="Light mode colors"><i style="--tone:#ffffff"></i><i style="--tone:#efeaf5"></i><i style="--tone:#1b7440"></i><i style="--tone:#6026ec"></i><i style="--tone:#17121f"></i></div>
+            <p>White canvas, soft violet-gray surfaces, accessible deep green, electric violet, and near-black type.</p>
+          </article>
         </div>
 
         <div class="color-grid">
@@ -516,7 +575,7 @@ export const brandMarkup = String.raw`
           <button class="copy-button" type="button" data-copy-target="token-code">Copy CSS</button>
         </div>
         <div class="code-panel"><pre><code id="token-code">${tokenCode}</code></pre></div>
-        <p class="evidence-note">This block transcribes the site's existing tokens. The logo's #C1FF72 was not automatically added because doing so requires a system decision.</p>
+        <p class="evidence-note">This block includes the original dark tokens and the approved light-mode adaptations. The logo's #C1FF72 remains file-specific; the navigation applies a reversible display filter in light mode until an official dark logo file is supplied.</p>
       </section>
 
       <section class="doc-section" id="checklist">
@@ -555,6 +614,28 @@ export const brandMarkup = String.raw`
 export const brandScript = String.raw`
 (() => {
   const root = document.documentElement;
+  const themeButtons = [...document.querySelectorAll('[data-theme-toggle]')];
+  const themeColor = document.querySelector('meta[name="theme-color"]');
+  const setTheme = (theme, persist = true) => {
+    const nextTheme = theme === 'light' ? 'light' : 'dark';
+    root.dataset.theme = nextTheme;
+    if (themeColor) themeColor.setAttribute('content', nextTheme === 'light' ? '#ffffff' : '#080808');
+    themeButtons.forEach((button) => {
+      const isLight = nextTheme === 'light';
+      button.setAttribute('aria-pressed', String(isLight));
+      button.setAttribute('aria-label', isLight ? 'Switch to dark mode' : 'Switch to light mode');
+      const label = button.querySelector('[data-theme-label]');
+      if (label) label.textContent = isLight ? 'Dark mode' : 'Light mode';
+    });
+    if (persist) {
+      try { localStorage.setItem('rodrigo-brand-theme', nextTheme); } catch {}
+    }
+  };
+  setTheme(root.dataset.theme, false);
+  themeButtons.forEach((button) => button.addEventListener('click', () => {
+    setTheme(root.dataset.theme === 'light' ? 'dark' : 'light');
+  }));
+
   const menu = document.querySelector('.mobile-menu');
   const sidebar = document.querySelector('.sidebar');
   const scrim = document.querySelector('.nav-scrim');
