@@ -18,6 +18,9 @@ const fonts = [
   "poppins-600-latin.woff2",
   "poppins-700-latin.woff2",
   "poppins-800-latin.woff2",
+  "jetbrains-mono-latin.woff2",
+  "shrikhand-latin.woff2",
+  "array-400.woff2",
 ];
 
 for (const font of fonts) {
@@ -30,15 +33,15 @@ const favicon = await readFile(join(root, "public/favicon.svg"));
 const faviconData = `data:image/svg+xml;base64,${favicon.toString("base64")}`;
 
 const html = `<!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="An audited visual system extracted from Rodrigo Cazuza's published portfolio.">
-  <meta name="theme-color" content="#080808">
+  <meta name="description" content="Rodrigo Cazuza website design system v1.0: tokens, typography, layout, motion, and components measured from rodrigocazuza.com.">
+  <meta name="theme-color" content="#e6e7eb">
   <script>${themeInitScript}</script>
   <link rel="icon" href="${faviconData}" type="image/svg+xml">
-  <title>Rodrigo Cazuza Brand System</title>
+  <title>Rodrigo Cazuza Design System</title>
   <style>${css}</style>
 </head>
 <body>

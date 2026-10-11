@@ -3,9 +3,9 @@ import "./globals.css";
 import { themeInitScript } from "./brand-content";
 
 export const metadata: Metadata = {
-  title: "Rodrigo Cazuza Brand System",
+  title: "Rodrigo Cazuza Design System",
   description:
-    "An audited visual system extracted from Rodrigo Cazuza's published portfolio.",
+    "Rodrigo Cazuza website design system v1.0: tokens, typography, layout, motion, and components measured from rodrigocazuza.com.",
   other: {
     "codex-preview": "development",
   },
@@ -17,9 +17,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="dark" suppressHydrationWarning>
+    <html lang="en" data-theme="light" suppressHydrationWarning>
       <head>
-        <meta name="theme-color" content="#080808" />
+        <meta name="theme-color" content="#e6e7eb" />
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body>{children}</body>
